@@ -3,6 +3,7 @@
       
    require_once(__DIR__ . "/../model/Imovel.php");
    require_once(__DIR__ . "/../model/FotoImovel.php");
+   session_start();
 
        //echo "pre";        // este proprietario serve para mostrar coisas na tela detalhada da certa forma
        //print_r($_POST);
@@ -80,7 +81,9 @@
 
 
                   //Logica para Cadastrar As Imagens
-                  // header("Location: ../view/painelCadImoveis.php?sucesso=1");
+                  $_SESSION['mensagem'] = "Imóvel cadastro com sucesso!!";
+                  $_SESSION['tipo_alerta']= 'success';
+                   header("Location: ../view/painelAdmin.php");
                   exit;
                }else{
                   throw new Exception("erro ao gravar no banco da dados. ");
@@ -108,6 +111,10 @@
                   array_map('unlink', glob("$diretorio/*.*"));
                   rmdir($diretorio);
                }
+
+               $_SESSION['mensagem'] = "Imovel excluido com sucesso";
+               $_SESSION['tipo_alerta'] = 'danger';
+               header("Location: ../view/painelAdmin.php");
                echo "Excluido com sucesso!";
             }
 

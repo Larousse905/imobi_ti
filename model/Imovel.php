@@ -26,6 +26,7 @@
     private string $slug;
     private string $data_criacao; // Tipo datetime vindo do diagrama[cite: 169]
 
+    // resolvido proximo o erro é conferir as variáveis.
     private ?string $foto_principal = null;
 
     public function __construct(
@@ -219,6 +220,32 @@
             $stmt = $pdo->query($sql);
             return $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'imovel');
         }
+
+    public static function listarComfiltros(array $filtros = []){
+        $pdo = self::getConexao();
+
+        $sql = "SELECT 
+                i.id_imovel AS id, 
+                i.titulo, i.tipo, i.tipo_negocio, i.descricao, i.preco, 
+                i.valor_condominio, i.valor_iptu, i.cep, i.cidade, i.bairro, 
+                i.estado, i.endereco, i.quartos, i.banheiros, i.vagas, i.area, 
+                i.status, i.id_corretor, i.possui_piscina, i.possui_churrasqueira, 
+                i.slug, i.data_criacao,
+                f.caminho AS foto_principal 
+            FROM imoveis i 
+            LEFT JOIN fotos_imovel f ON i.id_imovel = f.id_imovel AND f.destaque = 1
+            ORDER BY i.id_imovel DESC  WHERE 1=1";
+            
+
+        $params = [];
+
+        // FILTRO POR TIPO
+        if(!empty($filtros['tipo'])){
+            $sql.= "AND i.tipo = ?";
+            $params[] = $filtros['tipo'];
+        }
+               
+    }     
     
         
    

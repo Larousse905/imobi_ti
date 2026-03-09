@@ -63,9 +63,9 @@
             <a href="painelAdmin.php" class="btn btn-sm btn-outline-secondary">Voltar para lista</a>
         </div>
                     <!----ALERTA----->
-                    <?php if($sucesso==1): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Imovel Cadastrado com sucesso
+                    <?php if (isset($_SESSION['mensagem'])): ?>
+        <div class="alert alert-<?= $_SESSION['tipo_alerta'] ?> alert-dismissible fade show" role="alert">
+            <?=  $_SESSION['mensagem'] ?>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
                     <?php endif?>
@@ -203,6 +203,7 @@
                     <select name="status" class="form-select">
                         <option value="disponivel">Disponível</option>
                         <option value="inativo">Inativo / Rascunho</option>
+                        <option value="inativo">Alugado</option>
                     </select>
                 </div>
 
